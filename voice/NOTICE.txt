@@ -4,6 +4,8 @@ vosk-browser 0.0.8, Copyright Ciaran O'Reilly and contributors, Apache License 2
 https://github.com/ccoreilly/vosk-browser
 Contains the WebAssembly build of Vosk API, Copyright Alpha Cephei Inc., Apache License 2.0.
 https://github.com/alphacep/vosk-api
+The browser runtime includes uuid v4 generation, Copyright uuid contributors, MIT.
+https://github.com/uuidjs/uuid (see LICENSE-UUID-MIT.txt)
 
 Chinese model: vosk-model-small-cn-0.22, Alpha Cephei, Apache License 2.0.
 https://alphacephei.com/vosk/models/vosk-model-small-cn-0.22.zip
