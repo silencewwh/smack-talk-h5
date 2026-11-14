@@ -1,0 +1,22 @@
+Browser speech recognition attribution
+
+vosk-browser 0.0.8, Copyright Ciaran O'Reilly and contributors, Apache License 2.0.
+https://github.com/ccoreilly/vosk-browser
+Contains the WebAssembly build of Vosk API, Copyright Alpha Cephei Inc., Apache License 2.0.
+https://github.com/alphacep/vosk-api
+
+Chinese model: vosk-model-small-cn-0.22, Alpha Cephei, Apache License 2.0.
+https://alphacephei.com/vosk/models/vosk-model-small-cn-0.22.zip
+English model: vosk-model-small-en-us-0.15, Alpha Cephei, Apache License 2.0.
+https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
+
+Model licenses: https://alphacephei.com/vosk/models
+Original model README files and unmodified contents are preserved in each archive.
+models.json records source and repacked archive SHA-256 checksums.
+The complete Apache License 2.0 text is in LICENSE-APACHE-2.0.txt.
+
+Enabling browser speech for the first time downloads the selected language model
+(Chinese approximately 44 MB; English approximately 41 MB). Vosk caches extracted
+model data in browser IndexedDB. Clearing browser storage requires another download.
+Recording and recognition run locally in a WebAssembly worker. Microphone audio is
+not uploaded to a speech service. No Google service or system speech service is used.

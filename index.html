@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#0d0f1a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SmackTalk" />
+  <meta name="description" content="Smack Talk 嘴炮大乱斗：手机浏览器格斗游戏，支持触屏操作与房间码联机。" />
+  <meta name="screen-orientation" content="landscape" />
+  <title>Smack Talk 嘴炮大乱斗</title>
+  <link rel="icon" type="image/png" href="assets/sprites/Portrait_Fighter_55.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <script type="module" crossorigin src="./assets/index-Ckg4haY4.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BndtNasE.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 主菜单 -->
+    <section id="screen-menu" class="screen active">
+      <div class="menu-bg"></div>
+      <div class="menu-content">
+        <div class="logo-wrap">
+          <h1 class="game-title">SMACK TALK</h1>
+          <p class="game-subtitle">嘴炮大乱斗 · 手机语音格斗版</p>
+        </div>
+        <div class="menu-buttons">
+          <button id="btn-solo" class="btn btn-primary">单机练习 / 人机对战</button>
+          <button id="btn-host" class="btn btn-accent">创建联机房间</button>
+          <button id="btn-join" class="btn btn-secondary">输入房间码加入</button>
+        </div>
+        <div class="menu-footer">
+          <span id="mic-perm-badge" class="badge">麦克风：未授权</span>
+          <button id="btn-test-mic" class="btn-mini">开启/测试麦克风</button>
+        </div>
+        <details class="network-settings">
+          <summary>游戏与联机设置</summary>
+          <div class="game-settings-grid">
+            <div>
+              <label for="voice-language">语音语言</label>
+              <select id="voice-language">
+                <option value="zh-CN">中文</option>
+                <option value="en-US">English</option>
+              </select>
+            </div>
+            <div>
+              <label for="solo-opponents">单机电脑数量</label>
+              <select id="solo-opponents">
+                <option value="1">1 名电脑</option>
+                <option value="2">2 名电脑</option>
+                <option value="3">3 名电脑</option>
+              </select>
+            </div>
+          </div>
+          <label for="input-host-signal-url">联机服务器</label>
+          <input id="input-host-signal-url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ws://电脑局域网IP:3000/ws" />
+          <p class="hint">朋友使用相同联机服务器，即可通过房间码加入。</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- 加入房间弹窗 -->
+    <section id="screen-join" class="screen">
+      <div class="panel join-panel">
+        <h2>加入联机房间</h2>
+        <p class="hint">输入房主提供的 6 位房间码，并使用相同的联机服务器。</p>
+        <input id="input-player-name" type="text" maxlength="12" autocomplete="nickname" aria-label="你的昵称" placeholder="你的昵称（默认：玩家）" />
+        <input id="input-room-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="off" aria-label="6 位房间码" placeholder="输入 6 位房间码" />
+        <input id="input-signal-url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="联机服务器地址" placeholder="联机服务器地址（留空使用默认地址）" />
+        <div id="join-error" class="error-text" role="status"></div>
+        <div class="row-btns">
+          <button id="btn-join-back" class="btn btn-secondary">返回</button>
+          <button id="btn-join-confirm" class="btn btn-primary">加入房间</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 选人 & 选图大厅 -->
+    <section id="screen-lobby" class="screen">
+      <div class="lobby-header">
+        <button id="btn-lobby-back" class="btn-mini">退出</button>
+        <div class="lobby-title">
+          <span id="lobby-mode-label">单机对战</span>
+          <span id="lobby-room-badge" class="room-badge hidden">房间码: <strong id="lobby-room-code">------</strong></span>
+        </div>
+        <div class="lobby-actions">
+          <button id="btn-lobby-stage-tab" class="btn-mini accent" aria-controls="lobby-stage-panel">选择地图 · 开始</button>
+        </div>
+      </div>
+
+      <div class="lobby-body">
+        <div class="lobby-left">
+          <h3>选择角色 (18名全角色)</h3>
+          <div id="char-grid" class="char-grid"></div>
+        </div>
+        <div class="lobby-right">
+          <div id="lobby-players-panel">
+            <h3>对战玩家</h3>
+            <div id="lobby-player-list" class="player-list"></div>
+          </div>
+          <div id="lobby-char-preview" class="char-preview"></div>
+        </div>
+      </div>
+      <div id="lobby-stage-panel" class="overlay stage-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="stage-panel-title">
+        <div class="panel stage-panel">
+          <div class="drawer-header">
+            <h3 id="stage-panel-title">选择地图 · 点击开始</h3>
+            <button id="btn-close-stage" class="btn-mini" aria-label="关闭地图选择">返回</button>
+          </div>
+          <div id="stage-grid" class="stage-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 战斗画面 -->
+    <section id="screen-game" class="screen">
+      <canvas id="game-canvas" aria-label="格斗游戏画面"></canvas>
+      <div class="rotate-hint" role="status"><span aria-hidden="true">↻</span> 横过手机，获得完整战斗视野</div>
+
+      <!-- 顶部玩家状态 HUD -->
+      <div id="hud-top" class="hud-top">
+        <div id="hud-players" class="hud-players"></div>
+        <div class="hud-center-info">
+          <span id="hud-ping" class="ping-badge"></span>
+          <button id="btn-pause" class="btn-hud">暂停</button>
+        </div>
+      </div>
+
+      <!-- 实时语音识别条 -->
+      <div id="voice-bar" class="voice-bar">
+        <span class="mic-dot" id="mic-dot"></span>
+        <span id="voice-live-text">请对着麦克风喊出招式名...</span>
+        <div class="loudness-track"><div id="loudness-fill" class="loudness-fill"></div></div>
+      </div>
+
+      <!-- 倒计时 / KO / 胜利提示 -->
+      <div id="center-banner" class="center-banner hidden">3</div>
+
+      <!-- 左侧虚拟摇杆 -->
+      <div id="joystick-zone" class="joystick-zone" aria-label="移动摇杆，下拉可下蹲">
+        <div id="joystick-base" class="joystick-base">
+          <div id="joystick-knob" class="joystick-knob"></div>
+        </div>
+      </div>
+
+      <!-- 右侧跳跃 & 招式表按钮 -->
+      <div class="right-controls">
+        <div class="control-utilities">
+          <button id="btn-movelist" class="ctrl-btn ctrl-sub" aria-controls="movelist-drawer">招式表</button>
+          <button id="btn-toggle-touch-moves" class="ctrl-btn ctrl-sub" aria-controls="touch-moves-panel" aria-expanded="false" aria-label="触屏出招">触屏<br />出招</button>
+        </div>
+        <button id="btn-jump" class="ctrl-btn ctrl-jump" aria-label="跳跃">跳跃</button>
+      </div>
+
+      <div id="touch-moves-panel" class="touch-moves-panel hidden" aria-label="触屏招式">
+        <div id="touch-moves-grid" class="touch-moves-grid"></div>
+        <button id="btn-touch-power" class="touch-move touch-power">爆气觉醒</button>
+      </div>
+
+      <!-- 招式表浮层 -->
+      <div id="movelist-drawer" class="movelist-drawer hidden">
+        <div class="drawer-header">
+          <span>喊出招式名，或开启触屏出招</span>
+          <button id="btn-close-movelist" class="btn-mini">收起</button>
+        </div>
+        <div id="movelist-items" class="movelist-items"></div>
+      </div>
+
+      <!-- 暂停菜单 -->
+      <div id="pause-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+        <div class="panel pause-panel">
+          <h2 id="pause-title">游戏暂停</h2>
+          <div class="pause-voice-fallback">
+            <p class="hint">环境嘈杂或不便说话时，可使用右下角的「触屏出招」。</p>
+            <button id="btn-restart-voice" class="btn btn-secondary">重启语音识别</button>
+          </div>
+          <div class="row-btns">
+            <button id="btn-resume" class="btn btn-primary">继续战斗</button>
+            <button id="btn-exit-lobby" class="btn btn-secondary">返回大厅</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 结算画面 -->
+      <div id="winner-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="winner-title">
+        <div class="panel winner-panel">
+          <h2 id="winner-title">胜利！</h2>
+          <p id="winner-sub"></p>
+          <div class="row-btns">
+            <button id="btn-rematch" class="btn btn-primary">再来一局</button>
+            <button id="btn-winner-lobby" class="btn btn-secondary">返回选人</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

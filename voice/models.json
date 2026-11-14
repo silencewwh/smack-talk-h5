@@ -1,0 +1,18 @@
+{
+  "zh-CN": {
+    "file": "vosk-zh-CN-v1.tar.gz",
+    "bytes": 43890386,
+    "sha256": "41840dd48b4d72db8c9db447cfb7ec8736bf9f359d1d9486193f4b84b6c7e096",
+    "source": "https://alphacephei.com/vosk/models/vosk-model-small-cn-0.22.zip",
+    "sourceSha256": "3af8b0e7e0f835ae9d414ce5df580237a3cfb08d586c9fbbb0f7ff29ad5b14ba",
+    "license": "Apache-2.0"
+  },
+  "en-US": {
+    "file": "vosk-en-US-v1.tar.gz",
+    "bytes": 41184139,
+    "sha256": "a0a1631be6837bd3adcb7f2e6c8dd707483fbb9c667637a00991e10b70a361b2",
+    "source": "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip",
+    "sourceSha256": "30f26242c4eb449f948e42cb302dd7a686cb29a3423a8367f99ff41780942498",
+    "license": "Apache-2.0"
+  }
+}
